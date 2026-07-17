@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -20,10 +21,11 @@ async def register(data: UserRegister, db: AsyncSession = Depends(get_db)):
     if existing_email.scalar_one_or_none():
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    hashed_pw = await asyncio.to_thread(hash_password, data.password)
     user = User(
         username=data.username,
         email=data.email,
-        hashed_password=hash_password(data.password),
+        hashed_password=hashed_pw,
     )
     db.add(user)
     await db.flush()
@@ -40,7 +42,8 @@ async def login(data: UserLogin, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.username == data.username))
     user = result.scalar_one_or_none()
 
-    if not user or not verify_password(data.password, user.hashed_password):
+    password_ok = user and await asyncio.to_thread(verify_password, data.password, user.hashed_password)
+    if not password_ok:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
     token = create_access_token({"sub": str(user.id), "username": user.username})
