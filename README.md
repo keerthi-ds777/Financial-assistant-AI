@@ -34,7 +34,7 @@ MONGODB_URI=mongodb://localhost:27017
 MONGODB_DB=chatbot
 ```
 
-### 3. Ensure MySQL DB exists
+### 3. Ensure sqlite DB exists
 ```sql
 CREATE DATABASE IF NOT EXISTS chatbot_auth;
 ```
@@ -77,3 +77,7 @@ streamlit run frontend/app.py
 | `convert_currency` | Currency conversion |
 | `get_exchange_rate` | Exchange rate lookup |
 | `search_stock_knowledge` | Pinecone RAG over stock market PDF |
+
+## 🔗 Architecture Presentation :
+
+    open /Users/lravi/.gemini/antigravity-ide/brain/f97c2f74-0294-47bb-bab0-d82b4d47b94b/architecture_presentation.html
