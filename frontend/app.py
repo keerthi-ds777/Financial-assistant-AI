@@ -6,7 +6,7 @@ from datetime import datetime
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
-API_BASE = os.getenv("BACKEND_URL", "https://financial-assistant-ai-x1oy.onrender.com")
+API_BASE = os.getenv("BACKEND_URL", "https://financial-assistant-ai-4ny6.onrender.com")
 
 st.set_page_config(
     page_title="AI Financial Assistant",
