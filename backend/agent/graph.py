@@ -9,7 +9,6 @@ from backend.agent.tools.currency_tool import convert_currency, get_exchange_rat
 from backend.agent.tools.vector_db_tool import search_stock_knowledge
 from backend.config import settings
 
-# ─── Tools ───────────────────────────────────────────────────────────────────
 
 ALL_TOOLS = [
     get_stock_price,
@@ -20,7 +19,6 @@ ALL_TOOLS = [
     search_stock_knowledge,
 ]
 
-# ─── LLM ─────────────────────────────────────────────────────────────────────
 
 def _build_llm():
     return ChatGroq(
@@ -42,7 +40,6 @@ Always use tools when the question involves real-time data, stocks, currencies, 
 Be concise, factual, and structured in your responses.
 """
 
-# ─── Graph Nodes ─────────────────────────────────────────────────────────────
 
 def call_model(state: AgentState) -> AgentState:
     llm = _build_llm()
@@ -66,7 +63,6 @@ def should_continue(state: AgentState) -> str:
         return "tools"
     return END
 
-# ─── Build Graph ─────────────────────────────────────────────────────────────
 
 def build_graph():
     tool_node = ToolNode(ALL_TOOLS)

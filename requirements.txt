@@ -5,39 +5,25 @@ langchain_community
 pypdf
 sentence-transformers
 python-dotenv
-
-# Backend
 fastapi
 uvicorn[standard]
 python-multipart
-
-# Database
 sqlalchemy
 aiosqlite
 motor
 pymongo
-
-# Auth
 python-jose[cryptography]
 passlib[bcrypt]
 bcrypt==4.0.1
-
-# LangGraph / LangChain
 langgraph
 langchain
 langchain-groq
 langchain-openai
 langchain-core
 langchain-pinecone
-
-# Tools
 yfinance
 tavily-python
 requests
-
-# Frontend
 streamlit
-
-# Utils
 pydantic-settings
 httpx
