@@ -1,0 +1,35 @@
+# ── Backend Dockerfile ────────────────────────────────────────────────────────
+FROM python:3.10-slim
+
+# Copy uv binary from the official image (fast, no extra deps needed)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
+
+# System deps (needed by some ML/crypto packages)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install CPU-only PyTorch FIRST to prevent sentence-transformers / langchain-huggingface
+# from pulling the full CUDA build (~3 GB of NVIDIA libs). Must happen before requirements.txt.
+RUN uv pip install --system --no-cache \
+        torch \
+        --index-url https://download.pytorch.org/whl/cpu
+
+# Install remaining Python dependencies (layer caching)
+COPY requirements.txt .
+RUN uv pip install --system --no-cache -r requirements.txt
+
+# Copy project source
+COPY . .
+
+# Create the data directory for SQLite persistence
+RUN mkdir -p data
+
+# Expose FastAPI port
+EXPOSE 8000
+
+# Run with uvicorn; --root-path allows running behind a proxy later
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

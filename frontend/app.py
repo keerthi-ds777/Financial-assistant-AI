@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 import uuid
@@ -5,7 +6,7 @@ from datetime import datetime
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
-API_BASE = "http://localhost:8000"
+API_BASE = os.getenv("BACKEND_URL", "https://financial-assistant-ai-x1oy.onrender.com")
 
 st.set_page_config(
     page_title="AI Financial Assistant",

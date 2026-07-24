@@ -20,10 +20,11 @@ langchain
 langchain-groq
 langchain-openai
 langchain-core
-langchain-pinecone
+langchain-pinecone>=0.2.0
 yfinance
 tavily-python
 requests
 streamlit
+pydantic[email]
 pydantic-settings
 httpx
